@@ -139,41 +139,41 @@ func (a *authHTTP) CheckConnect(clientID, username, password string) bool {
 
 //CheckACL check mqtt connect
 func (a *authHTTP) CheckACL(action, clientID, username, ip, topic string) bool {
+	return true
+	// {
+	// 	aCache := checkCache(action, "", username, "", topic)
+	// 	if aCache != nil {
+	// 		if aCache.topic == topic && aCache.action == action {
+	// 			return true
+	// 		}
+	// 	}
+	// }
 
-	{
-		aCache := checkCache(action, "", username, "", topic)
-		if aCache != nil {
-			if aCache.topic == topic && aCache.action == action {
-				return true
-			}
-		}
-	}
+	// req, err := http.NewRequest("GET", config.ACLURL, nil)
+	// if err != nil {
+	// 	log.Error("get acl: ", zap.Error(err))
+	// 	return false
+	// }
 
-	req, err := http.NewRequest("GET", config.ACLURL, nil)
-	if err != nil {
-		log.Error("get acl: ", zap.Error(err))
-		return false
-	}
+	// data := req.URL.Query()
 
-	data := req.URL.Query()
+	// data.Add("username", username)
+	// data.Add("topic", topic)
+	// data.Add("access", action)
+	// req.URL.RawQuery = data.Encode()
+	// // fmt.Println("req:", req)
+	// resp, err := a.client.Do(req)
+	// if err != nil {
+	// 	log.Error("request acl: ", zap.Error(err))
+	// 	return false
+	// }
 
-	data.Add("username", username)
-	data.Add("topic", topic)
-	data.Add("access", action)
-	req.URL.RawQuery = data.Encode()
-	// fmt.Println("req:", req)
-	resp, err := a.client.Do(req)
-	if err != nil {
-		log.Error("request acl: ", zap.Error(err))
-		return false
-	}
+	// defer resp.Body.Close()
+	// io.Copy(ioutil.Discard, resp.Body)
 
-	defer resp.Body.Close()
-	io.Copy(ioutil.Discard, resp.Body)
-
-	if resp.StatusCode == http.StatusOK {
-		addCache(action, "", username, "", topic)
-		return true
-	}
-	return false
+	// if resp.StatusCode == http.StatusOK {
+	// 	addCache(action, "", username, "", topic)
+	// 	return true
+	// }
+	// return false
 }
