@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -341,7 +342,7 @@ func (b *Broker) handleConnection(typ int, conn net.Conn) {
 		return
 	}
 
-	if typ == CLIENT && !b.CheckConnectAuth(msg.ClientIdentifier, msg.Username, string(msg.Password)) {
+	if typ == CLIENT && !b.CheckConnectAuth(msg.ClientIdentifier, msg.Username, string(msg.Password)) && strings.Split(conn.RemoteAddr().String(), ":")[0] != "127.0.0.1" {
 		connack.ReturnCode = packets.ErrRefusedNotAuthorised
 		func() {
 			defer conn.Close()
