@@ -78,7 +78,7 @@ func (a *authHTTP) CheckConnect(clientID, username, password string) bool {
 		log.Error("new request super: ", zap.Error(err))
 		return false
 	}
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
 
 	resp, err := a.client.Do(req)
